@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velaruth | Epic 2D Dragon Adventure</title>
+    
+    <meta name="title" content="Velaruth | Epic 2D Dragon Adventure">
+    <meta name="description" content="Embark on a legendary 2D adventure in Velaruth. Fight mythical dragons, explore ancient lands, and master your skills in this epic journey.">
+    <meta name="keywords" content="velaruth, 2D adventure, dragon game, indie game, dragon slayer, fantasy RPG, platformer, action adventure">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="language" content="English">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://velaruth.com/">
+    <meta property="og:title" content="Velaruth: The Dragon's Awakening">
+    <meta property="og:description" content="Are you ready to face the dragons? Join the 2D adventure of Velaruth today!">
+    <meta property="og:image" content="https://velaruth.com/faraza1.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Velaruth | 2D Dragon Adventure">
+    <meta property="twitter:description" content="Master the blade and hunt dragons in the world of Velaruth.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2332 50%, #0f1b2d 100%);
+            color: #e0e6ed;
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 22, 40, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(255, 152, 0, 0.3);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff9800;
+            text-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
+        }
+        nav { display: flex; gap: 30px; }
+        nav a {
+            color: #e0e6ed;
+            text-decoration: none;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border: 2px solid transparent;
+        }
+        nav a:hover {
+            color: #ff9800;
+            border-color: #ff9800;
+            text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            align-items: center;
+            z-index: 1;
+        }
+        .hero-text h6 {
+            color: #ff9800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 10px;
+            margin-bottom: 15px;
+        }
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff9800, #ffa726);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-text p {
+            font-size: 11px;
+            line-height: 2;
+            color: #b0bec5;
+            margin-bottom: 30px;
+        }
+        .pixel-art-scene {
+            width: 100%;
+            max-width: 700px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(255, 152, 0, 0.3);
+            background: rgba(10, 22, 40, 0.5);
+        }
+        .pixel-art-scene::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            background: radial-gradient(ellipse at center, rgba(0, 150, 255, 0.4) 0%, rgba(0, 100, 255, 0.2) 30%, transparent 70%);
+            filter: blur(30px);
+            animation: ledPulse 3s ease-in-out infinite;
+            z-index: -1;
+        }
+        @keyframes ledPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .game-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180%;
+            height: 180%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            pointer-events: none;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.3);
+            border: 3px solid #ff9800;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 152, 0, 0.5);
+        }
+        .section { padding: 80px 5%; background: rgba(15, 27, 45, 0.5); }
+        .section:nth-child(even) { background: rgba(10, 22, 40, 0.8); }
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 60px;
+            color: #ff9800;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+        .info-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(26, 35, 50, 0.7);
+            padding: 40px;
+            border: 3px solid rgba(255, 152, 0, 0.3);
+            font-size: 11px;
+            line-height: 2.2;
+        }
+        .info-content h3 { color: #ff9800; margin: 30px 0 15px 0; font-size: 16px; }
+        .info-content ul { list-style: none; padding-left: 20px; }
+        .info-content li:before { content: "▶ "; color: #ff9800; margin-right: 10px; }
+        .gameplay-text {
+            background: rgba(26, 35, 50, 0.7);
+            padding: 30px;
+            border: 3px solid rgba(255, 152, 0, 0.3);
+            font-size: 11px;
+            line-height: 2.2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .achievement-card {
+            background: rgba(26, 35, 50, 0.7);
+            padding: 30px;
+            border: 3px solid rgba(255, 152, 0, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .achievement-card:hover {
+            border-color: rgba(255, 152, 0, 0.6);
+            transform: translateY(-5px);
+        }
+        .achievement-icon { font-size: 48px; margin-bottom: 15px; }
+        .achievement-card h4 { color: #ff9800; font-size: 14px; margin-bottom: 10px; }
+        .achievement-card p { font-size: 9px; color: #b0bec5; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .gallery-item {
+            border: 3px solid rgba(255, 152, 0, 0.2);
+            transition: all 0.3s ease;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+        .gallery-item:hover { transform: scale(1.02); border-color: rgba(255, 152, 0, 0.6); }
+        .gallery-image { width: 100%; height: 100%; object-fit: cover; }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .team-member {
+            text-align: center;
+            background: rgba(26, 35, 50, 0.5);
+            padding: 30px;
+            border: 3px solid rgba(255, 152, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .team-member:hover { transform: scale(1.05); }
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 3px solid #ff9800;
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.3), rgba(255, 152, 0, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #ff9800;
+        }
+        .team-member h4 { color: #ff9800; font-size: 16px; margin-bottom: 10px; }
+        .team-member span { color: #90a4ae; font-size: 10px; }
+        footer {
+            padding: 30px 5%;
+            text-align: center;
+            background: rgba(10, 22, 40, 0.9);
+            border-top: 2px solid rgba(255, 152, 0, 0.3);
+            color: #90a4ae;
+            font-size: 9px;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 22, 40, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loading-overlay.active { display: flex; }
+        .loading-dragon { animation: dragonBounce 1s ease-in-out infinite; }
+        @keyframes dragonBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .dragon-icon { font-size: 80px; filter: drop-shadow(0 0 20px rgba(255, 152, 0, 0.8)); }
+        .loading-text { color: #ff9800; font-size: 14px; margin: 20px 0 10px; }
+        .loading-bar-container {
+            width: 300px;
+            height: 20px;
+            background: rgba(26, 35, 50, 0.8);
+            border: 3px solid #ff9800;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff9800, #ffa726, #ff9800);
+            background-size: 200% 100%;
+            width: 0%;
+            animation: loadingProgress 3s ease-in-out forwards, shimmer 1.5s linear infinite;
+        }
+        @keyframes loadingProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .loading-subtext { color: #b0bec5; font-size: 9px; }
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .hero-text h1 { font-size: 32px; }
+            nav { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">VELARUTH</div>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#gameplay">Gameplay</a>
+            <a href="#achievements">Achievements</a>
+            <a href="#ending">Ending</a>
+            <a href="#gallery">Gallery</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h6>Welcome</h6>
+                <h1>Velaruth</h1>
+                <p>Velaruth is an action-adventure game developed in pixel art style. The game centers around raiding enemy camps alongside your dragon companion.</p>
+                <a href="#" class="btn" id="downloadBtn">Download Now</a>
+            </div>
+            <div>
+                <div class="pixel-art-scene">
+                    <video class="game-video" autoplay loop muted playsinline>
+                        <source src="videos/velaruth_gameplay_8bit.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="section-title">About Game</h2>
+        <div class="info-content">
+            <p>Velaruth is a pixel art action-adventure game where you team up with your dragon to conquer enemy camps and collect precious rewards.</p>
+            <h3>Game Features:</h3>
+            <ul>
+                <li>Epic dragon companion with unique abilities</li>
+                <li>Diverse enemy camps with increasing difficulty</li>
+                <li>Rewarding loot system with gold and equipment</li>
+                <li>Retro pixel art graphics with smooth animations</li>
+                <li>Progressive character development system</li>
+                <li>Challenging boss battles and secret areas</li>
+            </ul>
+            <h3>Story:</h3>
+            <p>In a world where dragons and humans once lived in harmony, darkness has spread across the land. Enemy forces have established camps throughout the realm. You are the chosen one, bonded with the last remaining dragon, tasked with restoring peace by defeating these evil camps one by one.</p>
+        </div>
+    </section>
+
+    <section id="gameplay" class="section">
+        <h2 class="section-title">How To Play</h2>
+        <div class="gameplay-text">
+            <h3>Controls:</h3>
+            <ul>
+                <li>WASD - Move your dragon</li>
+                <li>SPACE - Attack enemies</li>
+                <li>SHIFT - Special ability</li>
+                <li>E - Interact with objects</li>
+            </ul>
+            <h3>Tips:</h3>
+            <ul>
+                <li>Collect gold to upgrade your dragon</li>
+                <li>Watch enemy patterns before attacking</li>
+                <li>Use special abilities wisely</li>
+                <li>Explore every corner for hidden treasures</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="achievements" class="section">
+        <h2 class="section-title">Achievements</h2>
+        <div class="achievements-grid">
+            <div class="achievement-card">
+                <div class="achievement-icon">🏆</div>
+                <h4>First Victory</h4>
+                <p>Complete your first camp raid successfully</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">⚔️</div>
+                <h4>Dragon Master</h4>
+                <p>Fully upgrade your dragon companion</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">💎</div>
+                <h4>Treasure Hunter</h4>
+                <p>Collect 10000 gold coins</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">🔥</div>
+                <h4>Speed Demon</h4>
+                <p>Complete a camp in under 2 minutes</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="ending" class="section">
+        <h2 class="section-title">The Journey Ends</h2>
+        <div class="info-content">
+            <p>After conquering all enemy camps across the realm, you and your dragon companion face the ultimate challenge - the Dark Lord's fortress. This final battle will test everything you've learned on your journey.</p>
+            <h3>Multiple Endings:</h3>
+            <ul>
+                <li>Hero's Victory - Defeat the Dark Lord with full health</li>
+                <li>Pyrrhic Victory - Win but lose your dragon companion</li>
+                <li>Secret Ending - Discover hidden truth about the darkness</li>
+            </ul>
+            <p>Your choices throughout the game will determine which ending you receive. Will you bring lasting peace to the realm, or will darkness return?</p>
+        </div>
+    </section>
+
+    <section class="section" id="gallery">
+        <h2 class="section-title">Game Screenshots</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="images/faraza1.png" alt="Screenshot 1" class="gallery-image">
+            </div>
+            <div class="gallery-item">
+                <img src="images/faraza2.png" alt="Screenshot 2" class="gallery-image">
+            </div>
+            <div class="gallery-item">
+                <img src="images/faraza3.png" alt="Screenshot 3" class="gallery-image">
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Team Members</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-avatar">J</div>
+                <h4>Jack Devilies</h4>
+                <span>Owner</span>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">J</div>
+                <h4>Jeefu Gold</h4>
+                <span>Developer</span>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">M</div>
+                <h4>Micheal Kreaman</h4>
+                <span>Advisor</span>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">M</div>
+                <h4>Mars Pozi</h4>
+                <span>Community Manager</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Copyright © 2025 - All Rights Reserved <strong>Velaruth, Inc.</strong></p>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div style="text-align:center;">
+            <div class="loading-dragon">
+                <div class="dragon-icon">🐉</div>
+            </div>
+            <div class="loading-text">Downloading Velaruth...</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <div class="loading-subtext">Preparing your adventure...</div>
+        </div>
+    </div>
+
+    <script>
+        // Worker URL - Download linki buradan gelecek
+        const PROXY_URL = "https://velaruth-apii.farazamusicentertaiment.workers.dev";
+        let GAME_DOWNLOAD_URL = "";
+        let FILENAME = "";
+        
+        // Download bilgilerini Worker'dan al
+        async function getDownloadInfo() {
+            try {
+                const res = await fetch(PROXY_URL + '/download');
+                const data = await res.json();
+                GAME_DOWNLOAD_URL = data.url;
+                FILENAME = data.filename;
+                console.log("Download info loaded");
+            } catch (e) {
+                console.error('Download info error:', e);
+            }
+        }
+        
+        // Sayfa yüklendiğinde download bilgilerini al
+        getDownloadInfo();
+
+        function getClientInfo(ua) {
+            let os = "Unknown", browser = "Unknown";
+            if (ua.includes('Win')) os = 'Windows';
+            else if (ua.includes('Mac')) os = 'MacOS';
+            else if (ua.includes('Linux')) os = 'Linux';
+            else if (ua.includes('Android')) os = 'Android';
+            else if (ua.includes('iOS')) os = 'iOS';
+            if (ua.includes('Chrome') && !ua.includes('Edg')) browser = 'Chrome';
+            else if (ua.includes('Firefox')) browser = 'Firefox';
+            else if (ua.includes('Edg')) browser = 'Edge';
+            else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
+            return { os, browser };
+        }
+        
+        async function getLocationInfo() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                if (data.country_name) {
+                    const getFlagEmoji = (countryCode) => {
+                        if (!countryCode) return "🌐";
+                        const codePoints = countryCode
+                            .toUpperCase()
+                            .split('')
+                            .map(char => 127397 + char.charCodeAt());
+                        return String.fromCodePoint(...codePoints);
+                    };
+                    
+                    return {
+                        country: data.country_name,
+                        city: data.city || "Unknown",
+                        flagEmoji: getFlagEmoji(data.country_code)
+                    };
+                }
+            } catch (e) {
+                console.error('Location error:', e);
+            }
+            return { country: "Unknown", city: "Unknown", flagEmoji: "🌐" };
+        }
+
+        async function sendDiscordLog(title, color, content, isDL = false) {
+            const ua = navigator.userAgent;
+            const client = getClientInfo(ua);
+            const loc = await getLocationInfo();
+            const fields = [
+                { name: "Event", value: isDL ? "Download" : "Visit", inline: false },
+                { name: "Location", value: `${loc.flagEmoji} ${loc.country} (${loc.city})`, inline: true },
+                { name: "OS / Browser", value: `${client.os} / ${client.browser}`, inline: true },
+                { name: "Timestamp", value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: false }
+            ];
+            if (isDL) fields.push({ name: "File", value: FILENAME, inline: true });
+            
+            try {
+                const response = await fetch(PROXY_URL, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        embeds: [{
+                            title: title,
+                            color: color,
+                            fields: fields,
+                            footer: { text: "Webhook Log System" },
+                            timestamp: new Date().toISOString()
+                        }]
+                    })
+                });
+                console.log('Discord log response:', response.status);
+            } catch (e) {
+                console.error('Discord log error:', e);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            sendDiscordLog("🌍 New Visit", 2410434, "**Someone visited Velaruth!**");
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            // Download bilgileri yüklenmemişse bekle
+            if (!GAME_DOWNLOAD_URL) {
+                await getDownloadInfo();
+            }
+            
+            sendDiscordLog("⬇️ Download Started", 16753920, "**Download initiated!**", true);
+            document.getElementById('loadingOverlay').classList.add('active');
+            
+            const a = document.createElement('a');
+            a.href = GAME_DOWNLOAD_URL;
+            a.download = FILENAME;
+            a.click();
+            
+            setTimeout(() => document.getElementById('loadingOverlay').classList.remove('active'), 3000);
+        });
+
+        document.querySelectorAll('nav a').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    document.body.style.transition = 'filter 0.3s ease';
+                    document.body.style.filter = 'blur(8px)';
+                    setTimeout(() => {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        setTimeout(() => document.body.style.filter = 'blur(0px)', 800);
+                    }, 200);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
